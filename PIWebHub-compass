@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Compass Needle Movement</title>
+  <style>
+    body {
+      background: #0a0f1e;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    .compass {
+      width: 200px;
+      height: 200px;
+      position: relative;
+    }
+
+    svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .needle {
+      transform-origin: 50% 50%;
+      transition: transform 0.1s linear;
+    }
+  </style>
+</head>
+<body>
+
+<div class="compass">
+  <svg viewBox="0 0 100 100">
+    <circle cx="50" cy="50" r="45" stroke="#0ff" stroke-width="2" fill="none"/>
+    
+    <!-- Red Top Half -->
+    <polygon class="needle" points="50,20 54,50 46,50" fill="red" />
+
+    <!-- Cyan Bottom Half -->
+    <polygon class="needle" points="54,50 50,80 46,50" fill="#0ff" />
+  </svg>
+</div>
+
+<script>
+  function rotateNeedle(deg) {
+    const needles = document.querySelectorAll('.needle');
+    needles.forEach(needle => {
+      needle.style.transform = rotate(${deg}deg);
+    });
+  }
+
+  if (window.DeviceOrientationEvent) {
+    window.addEventListener('deviceorientation', (event) => {
+      if (event.absolute || event.alpha !== null) {
+        const heading = event.alpha; // 0-360 degrees
+        rotateNeedle(heading);
+      }
+    }, true);
+  } else {
+    console.log("DeviceOrientation not supported");
+  }
+</script>
+
+</body>
+</html>
